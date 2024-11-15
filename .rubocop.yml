@@ -70,6 +70,12 @@ Rails/I18nLocaleTexts:
 Rails/BulkChangeTable:
   Enabled: false
 
+Rails/DuplicateAssociation:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
 Rails/NotNullColumn:
   Enabled: false
 

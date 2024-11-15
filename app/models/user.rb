@@ -9,6 +9,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  role                   :integer          not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -23,8 +24,13 @@ class User < ApplicationRecord
   devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
 
+  # has_many :user_accounts
+  has_many :user_accounts, foreign_key: :user_id
+  # has_many :user_accounts, inverse_of: :owner
+
   validates :email, presence: true, uniqueness: true
   validates :name, presence: true
+  validates :role, presence: true
 
   enum :role, { user: 0, admin: 9 }, suffix: :role
 
