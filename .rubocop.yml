@@ -59,6 +59,8 @@ Style/DoubleNegation:
 Style/DoubleNegation:
   Enabled: false
 
+Style/NumericLiterals:
+  Enabled: false
 
 
 Rails/FilePath:
@@ -68,6 +70,12 @@ Rails/I18nLocaleTexts:
   Enabled: false
 
 Rails/BulkChangeTable:
+  Enabled: false
+
+Rails/DuplicateAssociation:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
   Enabled: false
 
 Rails/NotNullColumn:
@@ -85,7 +93,13 @@ Layout/HashAlignment:
 Layout/EmptyLines:
   Enabled: false
 
+Layout/ExtraSpacing:
+  Enabled: false
+
 Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Layout/TrailingEmptyLines:
   Enabled: false
 
 Layout/MultilineOperationIndentation:
@@ -104,4 +118,7 @@ Lint/RedundantCopDisableDirective:
   Enabled: false
 
 Lint/UnusedBlockArgument:
+  Enabled: false
+
+Lint/UselessAssignment:
   Enabled: false
