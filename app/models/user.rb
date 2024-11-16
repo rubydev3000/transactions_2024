@@ -28,9 +28,14 @@ class User < ApplicationRecord
   devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
 
+  # has_many :user_accounts
+  has_many :user_accounts, foreign_key: :user_id
+  # has_many :user_accounts, inverse_of: :owner
+
   validates :email, presence: true, uniqueness: true
   validates :email, uniqueness: { scope: [:deleted_at] }
   validates :name, presence: true
+  validates :role, presence: true
 
   enum :role, { user: 0, admin: 9 }, suffix: :role
 
