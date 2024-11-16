@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_15_035814) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_15_062812) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,48 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_035814) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
+  end
+
+  create_table "currencies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_currencies_on_code", unique: true
+    t.index ["deleted_at"], name: "index_currencies_on_deleted_at"
+    t.index ["name"], name: "index_currencies_on_name", unique: true
+  end
+
+  create_table "operations", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "recipient_id", null: false
+    t.bigint "currency_id", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.integer "type", null: false
+    t.integer "status", null: false
+    t.datetime "planned_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["currency_id"], name: "index_operations_on_currency_id"
+    t.index ["deleted_at"], name: "index_operations_on_deleted_at"
+    t.index ["planned_at"], name: "index_operations_on_planned_at"
+    t.index ["recipient_id"], name: "index_operations_on_recipient_id"
+    t.index ["sender_id"], name: "index_operations_on_sender_id"
+  end
+
+  create_table "user_accounts", force: :cascade do |t|
+    t.bigint "owner_id", null: false
+    t.bigint "currency_id", null: false
+    t.decimal "balance", precision: 10, scale: 2, null: false
+    t.integer "status", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["currency_id"], name: "index_user_accounts_on_currency_id"
+    t.index ["deleted_at"], name: "index_user_accounts_on_deleted_at"
+    t.index ["owner_id"], name: "index_user_accounts_on_owner_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,4 +86,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_15_035814) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "operations", "currencies"
+  add_foreign_key "operations", "user_accounts", column: "recipient_id"
+  add_foreign_key "operations", "user_accounts", column: "sender_id"
+  add_foreign_key "user_accounts", "currencies"
 end
